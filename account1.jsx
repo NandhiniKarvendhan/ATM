@@ -1,32 +1,31 @@
-// this keeps a running total of deposits and withdrawals
-
 const ATMDeposit = ({ onChange }) => {
   return (
     <label className="label huge">
       Deposit:
       <input type="number" onChange={onChange}></input>
-      <input type="submit"></input>
+      <input type="submit" value="Submit"></input>
     </label>
   );
 };
 
 const Account = () => {
-  const [accountState, setAccountState] = React.useState(0);
-  var deposit = 0;
-  const handleChange = event => {
+  let transactionState = 0; // state of this transaction
+  let totalState = 0; // Account total at Bank
+  let status = "Account Balance $zero";
+  const handleChange = (event) => {
     console.log(`handleChange ${event.target.value}`);
-    deposit = Number(event.target.value);
+    transactionState = Number(event.target.value);
   };
-  const handleSubmit = event => {
-    let newTotal = accountState + deposit;
-    alert(`Account total = ${newTotal}`);
-    setAccountState(newTotal);
+  const handleSubmit = () => {
+    totalState += transactionState;
+    status = `Account Balance $ ${totalState}`;
+    document.getElementById("total").innerHTML = status;
     event.preventDefault();
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <h2>Account Balance {accountState}</h2>
+      <h2 id="total">{status}</h2>
       <ATMDeposit onChange={handleChange}> Deposit</ATMDeposit>
     </form>
   );
